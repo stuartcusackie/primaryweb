@@ -20,23 +20,27 @@ class AppServiceProvider extends ServiceProvider
      * Bootstrap any application services.
      */
     public function boot(): void
-    {
+    {   
 
-        // Why aren't 404s being thrown?
-        Route::prefix('/{school:slug}')
+        // The order of each chained function is important here.
+        // prefix and domain must come first
+        // middleware must come before group for model bindings to work.
+        Route::prefix('{school:slug}')
+            ->middleware('web')
             ->group(base_path('routes/sites.php'))
-            ->name('site.slug.')
-            ->middleware('web');
+            ->name('site.slug.');
 
         Route::domain('{school:tld}')
+            ->middleware('web')
             ->group(base_path('routes/sites.php'))
-            ->name('site.tld.')
-            ->middleware('web');
+            ->name('site.tld.');
 
         Route::domain('{school:slug}.primaryweb.ie')
+            ->middleware('web')
             ->group(base_path('routes/sites.php'))
-            ->name('site.subdomain.')
-            ->middleware('web');
+            ->name('site.subdomain.');
+
+    
 
         // see docs ->scopeBindings() - looks useful
     }

@@ -12,7 +12,6 @@ class SiteController extends Controller
      */
     public function index(School $school)
     {
-        var_dump($school);
-        die();
+        return $school->name;
     }
 }
