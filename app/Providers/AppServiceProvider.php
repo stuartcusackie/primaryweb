@@ -21,26 +21,37 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {   
+        $this->configureSiteRoutes();
+    }
+
+    /**
+     * Configure school site routes and bind
+     * the models for tlds, slugs and subdomains.
+     */
+    public function configureSiteRoutes():void  {
 
         // The order of each chained function is important here.
         // prefix and domain must come first
         // middleware must come before group for model bindings to work.
+        // name must come before group for named routes to work
         Route::prefix('{school:slug}')
             ->middleware('web')
-            ->group(base_path('routes/sites.php'))
-            ->name('site.slug.');
+            ->name('site.slug.')
+            ->group(base_path('routes/sites.php'));
 
         Route::domain('{school:tld}')
             ->middleware('web')
-            ->group(base_path('routes/sites.php'))
-            ->name('site.tld.');
+            ->name('site.tld.')
+            ->group(base_path('routes/sites.php'));
 
+        /**
+         * If we want subdomain binding 
         Route::domain('{school:slug}.primaryweb.ie')
             ->middleware('web')
-            ->group(base_path('routes/sites.php'))
-            ->name('site.subdomain.');
+            ->name('site.subdomain.')
+            ->group(base_path('routes/sites.php'));
 
-    
+         */
 
         // see docs ->scopeBindings() - looks useful
     }

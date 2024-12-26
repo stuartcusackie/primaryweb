@@ -12,6 +12,7 @@ class SiteController extends Controller
      */
     public function index(School $school)
     {
-        return $school->name;
+        echo $school->name;
+        echo route('site.slug.index', $school);
     }
 }
