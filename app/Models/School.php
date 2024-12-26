@@ -21,7 +21,8 @@ class School extends Model
      * @var list<string>
      */
     protected $fillable = [
-        'name'
+        'name',
+        'slug'
     ];
 
     public function users(): BelongsToMany
