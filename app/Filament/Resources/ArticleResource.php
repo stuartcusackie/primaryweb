@@ -28,7 +28,39 @@ class ArticleResource extends Resource
         return $form
             ->schema([
                 Forms\Components\TextInput::make('name')
-                    ->label('Name')
+                    ->label('Name'),
+
+                Forms\Components\Section::make('Article content')
+                    ->description('Build your article using various text and image blocks.')
+                    ->schema([
+                        Forms\Components\Builder::make('content')
+                            ->label(false)
+                            ->addActionLabel('Add to content')
+                            ->blocks([
+                                Forms\Components\Builder\Block::make('text')
+                                    ->schema([
+                                        Forms\Components\RichEditor::make('content')
+                                            ->disableToolbarButtons([
+                                                'strike',
+                                                'attachFiles',
+                                                'codeBlock'
+                                            ])
+                                    ]),
+                                Forms\Components\Builder\Block::make('image')
+                                    ->schema([
+                                        Forms\Components\FileUpload::make('url')
+                                            ->label('Image')
+                                            ->image()
+                                            ->required(),
+                                        Forms\Components\TextInput::make('alt')
+                                            ->label('Alt text')
+                                            ->required(),
+                                    ])
+                                ->columns(['md' => 2]),
+                            ])
+                        ->collapsible()
+                        ->blockNumbers(false)
+                    ])
             ]);
     }
 
