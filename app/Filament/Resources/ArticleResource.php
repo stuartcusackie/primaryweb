@@ -10,6 +10,8 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Filament\Tables\Columns;
+use Filament\Forms\Components\Actions\Action;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
@@ -27,8 +29,8 @@ class ArticleResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('name')
-                    ->label('Name'),
+                Forms\Components\TextInput::make('title')
+                    ->label('Title'),
 
                 Forms\Components\Section::make('Article content')
                     ->description('Build your article using various text and image blocks.')
@@ -36,16 +38,18 @@ class ArticleResource extends Resource
                         Forms\Components\Builder::make('content')
                             ->label(false)
                             ->addActionLabel('Add to content')
+                            ->blockPreviews()
                             ->blocks([
                                 Forms\Components\Builder\Block::make('text')
                                     ->schema([
-                                        Forms\Components\RichEditor::make('content')
+                                        Forms\Components\RichEditor::make('text')
                                             ->disableToolbarButtons([
                                                 'strike',
                                                 'attachFiles',
                                                 'codeBlock'
                                             ])
-                                    ]),
+                                    ])
+                                    ->preview('filament.content.block-previews.articles.text'),
                                 Forms\Components\Builder\Block::make('image')
                                     ->schema([
                                         Forms\Components\FileUpload::make('url')
@@ -56,10 +60,14 @@ class ArticleResource extends Resource
                                             ->label('Alt text')
                                             ->required(),
                                     ])
-                                ->columns(['md' => 2]),
+                                    ->preview('filament.content.block-previews.articles.image')
+                                    ->columns(['md' => 2]),
                             ])
                         ->collapsible()
                         ->blockNumbers(false)
+                        ->deleteAction(
+                            fn (Action $action) => $action->requiresConfirmation(),
+                        )
                     ])
             ]);
     }
@@ -68,7 +76,7 @@ class ArticleResource extends Resource
     {
         return $table
             ->columns([
-                //
+                Columns\TextColumn::make('title')
             ])
             ->filters([
                 //

@@ -18,8 +18,21 @@ class Article extends Model
      * @var list<string>
      */
     protected $fillable = [
-        'name'
+        'title',
+        'content'
     ];
+
+    /**
+     * Get the attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            'content' => 'array',
+        ];
+    }
 
     /**
      * Get the school that owns the article.

@@ -12,7 +12,9 @@ class SiteController extends Controller
      */
     public function index(School $school)
     {
-        echo $school->name;
-        echo route('site.slug.index', $school);
+        return view('sites.home', [
+            'school' => $school,
+            'articles' => $school->articles
+        ]);
     }
 }

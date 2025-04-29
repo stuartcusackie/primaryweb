@@ -10,6 +10,7 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Filament\Tables\Columns;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
@@ -37,7 +38,7 @@ class ArticleCategoryResource extends Resource
     {
         return $table
             ->columns([
-                //
+                Columns\TextColumn::make('title')
             ])
             ->filters([
                 //
