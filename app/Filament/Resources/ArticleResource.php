@@ -52,13 +52,8 @@ class ArticleResource extends Resource
                                     ->preview('filament.content.block-previews.articles.text'),
                                 Forms\Components\Builder\Block::make('image')
                                     ->schema([
-                                        Forms\Components\FileUpload::make('url')
-                                            ->label('Image')
-                                            ->image()
-                                            ->required(),
-                                        Forms\Components\TextInput::make('alt')
-                                            ->label('Alt text')
-                                            ->required(),
+                                        \Awcodes\Curator\Components\Forms\CuratorPicker::make('curator_media_ids')
+                                            ->multiple()
                                     ])
                                     ->preview('filament.content.block-previews.articles.image')
                                     ->columns(['md' => 2]),

@@ -5,10 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use App\Models\Article;
 use App\Models\ArticleCategory;
 use App\Models\User;
+use Awcodes\Curator\Models\Media as CuratorMedia;
 
 class School extends Model
 {
@@ -30,6 +32,11 @@ class School extends Model
         return $this->belongsToMany(User::class);
     }
 
+    public function owner(): BelongsToMany
+    {
+        return $this->hasOne(User::class);
+    }
+
     /**
      * Get the articles for the school.
      */
@@ -44,5 +51,10 @@ class School extends Model
     public function articleCategories(): HasMany
     {
         return $this->hasMany(ArticleCategory::class);
+    }
+
+
+    public function media(): HasMany {
+        return $this->hasMany(CuratorMedia::class);
     }
 }

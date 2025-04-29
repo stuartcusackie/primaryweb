@@ -30,7 +30,8 @@ class AdminPanelProvider extends PanelProvider
             ->default()
             ->id('admin')
             ->path('admin')
-            ->tenant(School::class)
+            ->viteTheme('resources/css/filament/admin/theme.css')
+            ->tenant(School::class, ownershipRelationship: 'school')
             ->tenantRegistration(RegisterSchool::class)
             ->tenantProfile(EditSchoolProfile::class)
             ->tenantMenuItems([
@@ -63,6 +64,22 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->authMiddleware([
                 Authenticate::class,
-            ]);
+            ])
+            ->plugin(
+                \Awcodes\Curator\CuratorPlugin::make()
+                    ->label('Media')
+                    ->pluralLabel('Media')
+                    ->navigationIcon('heroicon-o-photo')
+                    ->navigationGroup('Content')
+                    ->navigationSort(3)
+                    ->navigationCountBadge()
+                    
+                    /*
+                    ->registerNavigation(false)
+                    ->resource(\App\Filament\Resources\MediaResource::class)
+                    ->defaultListView('grid' || 'list')
+                    ->resource(\App\Filament\Resources\CustomMediaResource::class)
+                    */
+            );
     }
 }
